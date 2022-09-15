@@ -174,6 +174,7 @@ let g:context_highlight_border = '<hide>'
 " Yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType sh setlocal ts=2 sts=2 sw=2 expandtab
 
 let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' --preview 'bat --style=numbers --line-range :300 {}'
 \ --bind ctrl-y:preview-up,ctrl-e:preview-down,
