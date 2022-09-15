@@ -13,6 +13,9 @@ set ignorecase
 set cursorline
 set nobackup
 set nowritebackup
+set nocompatible
+syntax on
+filetype plugin indent on
 
 set encoding=UTF-8
 
@@ -42,6 +45,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'wellle/context.vim'
+Plug 'hashivim/vim-terraform'
+Plug 'vim-syntastic/syntastic'
+Plug 'juliosueiras/vim-terraform-completion'
+Plug 'stephpy/vim-yaml'
 
 set encoding=UTF-8
 
@@ -56,6 +63,9 @@ let g:neosolarized_italic = 1
 
 "  Pear tree stuffs
 let g:pear_tree_repeatable_expand = 0
+let g:pear_tree_map_special_keys = 0
+imap <BS> <Plug>(PearTreeBackspace)
+imap <CR> <Plug>(PearTreeExpand)
 
 colorscheme vim-material
 
@@ -74,14 +84,6 @@ nmap <F8> :TagbarToggle<CR>
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
-
-" --- Just Some Notes ---
-" :PlugClean :PlugInstall :UpdateRemotePlugins
-"
-" :CocInstall coc-python
-" :CocInstall coc-clangd
-" :CocInstall coc-snippets
-" :CocCommand snippets.edit... FOR EACH FILE TYPE
 
 " air-line
 let g:airline_powerline_fonts = 1
@@ -103,6 +105,8 @@ let g:airline_symbols.linenr = ''
 nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
 nmap <Esc> :call coc#float#close_all() <CR>
 inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
+inoremap <expr> <Esc> pumvisible() ? "<C-e>" : "<Esc>"
+
 " Display completion
 inoremap <silent><expr> <c-space> coc#refresh()
 
@@ -136,14 +140,40 @@ let g:go_doc_keywordprg_enabled = 0
 " NERDTree settings
 let g:NERDTreeWinPos = "right"
 
-inoremap <expr> <Esc> pumvisible() ? "<C-e>" : "<Esc>"
+" Terraform settings
+" Syntastic Config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" (Optional)Remove Info(Preview) window
+set completeopt-=preview
+
+" (Optional)Hide Info(Preview) window after completions
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" (Optional) Enable terraform plan to be include in filter
+let g:syntastic_terraform_tffilter_plan = 1
+
+" (Optional) Default: 0, enable(1)/disable(0) plugin's keymapping
+let g:terraform_completion_keys = 1
+
+" (Optional) Default: 1, enable(1)/disable(0) terraform module registry completion
+let g:terraform_registry_module_completion = 0
 
 " context.vim settings
 let g:context_highlight_tag = '<hide>'
 let g:context_highlight_border = '<hide>'
+
+" Yaml
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
 
 let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' --preview 'bat --style=numbers --line-range :300 {}'
 \ --bind ctrl-y:preview-up,ctrl-e:preview-down,
