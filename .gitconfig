@@ -1,0 +1,8 @@
+[includeIf "gitdir:~/gitlab/"]
+	path = .gitconfig-gitlab
+[includeIf "gitdir:~/github/"]
+	path = .gitconfig-github
+[pull]
+	ff = only
+[credential]
+	helper = store

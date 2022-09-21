@@ -15,3 +15,7 @@ ln -sf ${SOURCE_DIR}/.config/nvim/coc-settings.json ${NVIM_DIR}/coc-settings.jso
 
 # BASH
 ln -sf ${SOURCE_DIR}/.profile ${HOME}/.profile
+
+# GIT
+ln -sf ${SOURCE_DIR}/.gitconfig ${HOME}/.gitconfig
+ln -sf ${SOURCE_DIR}/.gitconfig-github ${HOME}/.gitconfig-github
