@@ -1,16 +1,21 @@
 set number
 set title
+
 set autoindent
+set smartindent
+
 set tabstop=4
 set shiftwidth=4
 set smarttab
 set softtabstop=4
+
 set mouse=a
-set termguicolors
-set background=dark
 set relativenumber
 set ignorecase
 set cursorline
+
+set termguicolors
+
 set nobackup
 set nowritebackup
 set nocompatible
@@ -19,30 +24,28 @@ filetype plugin indent on
 
 set encoding=UTF-8
 
-set ai "Auto indent
-set si "Smart indent
-
 " MacOS copy and paste
 set clipboard+=unnamedplus
 
 call plug#begin()
 
-Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
+Plug 'tpope/vim-surround' " Surrounding ysw)
 Plug 'preservim/nerdtree'
 Plug 'fatih/vim-go'
-Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
-Plug 'https://github.com/vim-airline/vim-airline' " Status bar
-Plug 'https://github.com/ap/vim-css-color' " CSS Color Preview
+Plug 'tpope/vim-commentary' " For Commenting gcc & gc
+Plug 'vim-airline/vim-airline' " Status bar
+Plug 'ap/vim-css-color' " CSS Color Preview
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'akinsho/toggleterm.nvim'
-Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
-Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
+Plug 'preservim/tagbar' " Tagbar for code navigation
+Plug 'terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
 Plug 'tpope/vim-fugitive'
 Plug 'overcache/NeoSolarized'
 Plug 'hzchirs/vim-material'
 Plug 'tmsvg/pear-tree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'wellle/context.vim'
 Plug 'hashivim/vim-terraform'
@@ -53,6 +56,8 @@ Plug 'stephpy/vim-yaml'
 set encoding=UTF-8
 
 call plug#end()
+
+source ~/.config/nvim/coc.vim
 
 let g:neosolarized_contrast = "high"
 let g:neosolarized_visibility = "high"
@@ -68,9 +73,6 @@ imap <BS> <Plug>(PearTreeBackspace)
 imap <CR> <Plug>(PearTreeExpand)
 
 colorscheme vim-material
-
-"  Remap window from w to a
-map <C-a> <C-W>
 
 lua <<EOF
 require("toggleterm").setup{}
@@ -100,25 +102,6 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
-
-"  CoC settings
-nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
-nmap <Esc> :call coc#float#close_all() <CR>
-inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
-inoremap <expr> <Esc> pumvisible() ? "<C-e>" : "<Esc>"
-
-" Display completion
-inoremap <silent><expr> <c-space> coc#refresh()
-
-nnoremap <silent> K :call ShowDocumentation()<CR>
-
-function! ShowDocumentation()
-    if CocAction('hasProvider', 'hover')
-      call CocActionAsync('doHover')
-    else
-      call feedkeys('K', 'in')
-    endif
-endfunction
 
 " Toggle terminal with C-q
 nnoremap <silent> <C-q> :ToggleTerm<Enter>
@@ -176,9 +159,11 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType sh setlocal ts=2 sts=2 sw=2 expandtab
 
-let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' --preview 'bat --style=numbers --line-range :300 {}'
-\ --bind ctrl-y:preview-up,ctrl-e:preview-down,
-\ctrl-b:preview-page-up,ctrl-f:preview-page-down,
-\ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,
-\shift-up:preview-top,shift-down:preview-bottom,
-\alt-up:half-page-up,alt-down:half-page-down"
+
+"""" Misc editor remappings
+" Go to end of line while in insert mode
+inoremap <C-e> <C-o>A
+
+nnoremap ff <cmd>Telescope find_files<cr>
+nnoremap fg <cmd>Telescope live_grep<cr>
+nnoremap fb <cmd>Telescope buffers<cr>
