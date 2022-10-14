@@ -2,6 +2,6 @@
     "diagnostic.checkCurrentLine": true,
     "coc.preferences.hoverTarget": "float",
     "suggest.floatEnable": true,
-	"diagnostic.virtualText": true,
-	"diagnostic.virtualTextCurrentLineOnly": false
+    "diagnostic.virtualText": true,
+    "diagnostic.virtualTextCurrentLineOnly": false
 }
