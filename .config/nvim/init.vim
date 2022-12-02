@@ -164,6 +164,8 @@ autocmd FileType sh setlocal ts=4 sts=4 sw=4 noexpandtab
 " Go to end of line while in insert mode
 inoremap <C-e> <C-o>A
 
+" Telescope hot key
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap fb <cmd>Telescope buffers<cr>
+nnoremap fc <cmd>Telescope current_buffer_fuzzy_find<cr>
