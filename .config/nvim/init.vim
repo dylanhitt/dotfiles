@@ -52,6 +52,7 @@ Plug 'hashivim/vim-terraform'
 Plug 'vim-syntastic/syntastic'
 Plug 'juliosueiras/vim-terraform-completion'
 Plug 'stephpy/vim-yaml'
+Plug 'brooth/far.vim'
 
 set encoding=UTF-8
 
@@ -169,3 +170,13 @@ nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap fb <cmd>Telescope buffers<cr>
 nnoremap fc <cmd>Telescope current_buffer_fuzzy_find<cr>
+
+" Local Find and replace
+function! Rnvar()
+    let word_to_replace = expand("<cword>")
+    let replacement = input("new name: ")
+    execute '%s/\(\W\)' . word_to_replace . '\(\W\)/\1' . replacement . '\2/gc'
+endfunction
+
+" For local replace
+nnoremap gr :call Rnvar()<CR>
