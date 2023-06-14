@@ -24,6 +24,10 @@ filetype plugin indent on
 
 set encoding=UTF-8
 
+" Whitespace stuffs
+set listchars=eol:$,tab:>.,trail:.,extends:>,precedes:.
+set list
+
 " MacOS copy and paste
 set clipboard+=unnamedplus
 
@@ -38,7 +42,6 @@ Plug 'ap/vim-css-color' " CSS Color Preview
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'akinsho/toggleterm.nvim'
 Plug 'preservim/tagbar' " Tagbar for code navigation
-Plug 'terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
 Plug 'tpope/vim-fugitive'
 Plug 'overcache/NeoSolarized'
 Plug 'hzchirs/vim-material'
@@ -48,11 +51,14 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'wellle/context.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'hashivim/vim-terraform'
 Plug 'vim-syntastic/syntastic'
 Plug 'juliosueiras/vim-terraform-completion'
 Plug 'stephpy/vim-yaml'
 Plug 'brooth/far.vim'
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 set encoding=UTF-8
 
@@ -120,7 +126,7 @@ let g:go_auto_type_info = 1
 let g:go_metalinter_autosave = 1
 let g:go_list_type = 'locationlist'
 let g:go_doc_keywordprg_enabled = 0
-
+autocmd FileType go setlocal nolist
 " NERDTree settings
 let g:NERDTreeWinPos = "right"
 
@@ -158,12 +164,16 @@ let g:context_highlight_border = '<hide>'
 " Yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType sh setlocal ts=4 sts=4 sw=4 noexpandtab
+autocmd FileType json setlocal ts=2 sts=2 sw=2 expandtab
 
+autocmd FileType sh setlocal ts=4 sts=4 sw=4 noexpandtab
+autocmd FileType sh setlocal listchars=tab:\ \ 
 
 """" Misc editor remappings
 " Go to end of line while in insert mode
-inoremap <C-e> <C-o>A
+inoremap <C-l> <C-o>A
+" Go to end of nested bracket and go to end of line 
+inoremap <C-e> <C-o>]}<C-o>A
 
 " Telescope hot key
 nnoremap ff <cmd>Telescope find_files<cr>
