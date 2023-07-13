@@ -34,8 +34,11 @@ set clipboard+=unnamedplus
 call plug#begin()
 
 Plug 'tpope/vim-surround' " Surrounding ysw)
-Plug 'preservim/nerdtree'
 Plug 'fatih/vim-go'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 'tpope/vim-commentary' " For Commenting gcc & gc
 Plug 'vim-airline/vim-airline' " Status bar
 Plug 'ap/vim-css-color' " CSS Color Preview
@@ -49,7 +52,6 @@ Plug 'tmsvg/pear-tree'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
-Plug 'ryanoasis/vim-devicons'
 Plug 'wellle/context.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -83,16 +85,38 @@ colorscheme vim-material
 
 lua <<EOF
 require("toggleterm").setup{}
+
+require("neo-tree").setup({
+    window = {
+        position = "right",
+    },
+    filesystem = {
+        filtered_items = {
+            hide_dotfiles = true,
+            hide_gitignored = true,
+        },
+        window = {
+            mappings = {
+                ["f"] = "",
+            },
+        }
+    },
+    event_handlers = {
+        {
+            event = "file_opened",
+            handler = function(file_path)
+                --auto close
+                require("neo-tree").close_all()
+            end
+        }
+    },
+})
 EOF
 
-nnoremap <C-g> :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-y> :NERDTreeToggle<CR>
+" Neotree mappings
+nnoremap <C-y> :NeoTreeShow<CR>
 
 nmap <F8> :TagbarToggle<CR>
-
-let g:NERDTreeDirArrowExpandable="+"
-let g:NERDTreeDirArrowCollapsible="~"
 
 " air-line
 let g:airline_powerline_fonts = 1
@@ -124,11 +148,9 @@ let g:go_fmt_autosave = 1
 let g:go_fmt_command = "goimports"
 let g:go_auto_type_info = 1
 let g:go_metalinter_autosave = 1
-let g:go_list_type = 'locationlist'
+let g:go_list_type = 'quickfix'
 let g:go_doc_keywordprg_enabled = 0
 autocmd FileType go setlocal nolist
-" NERDTree settings
-let g:NERDTreeWinPos = "right"
 
 " Terraform settings
 " Syntastic Config
