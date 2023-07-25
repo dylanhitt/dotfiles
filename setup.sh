@@ -12,6 +12,63 @@ info() {
     printf '%b\n' " - [$(date +'%m/%d/%y %H:%M:%S')] <Info>: $1"
 }
 
+# ========
+# Utils
+# ========
+
+command_check() {
+  if ! command -v $1 &> /dev/null; then
+      error "In order to use this script, ${1} must be installed"
+      exit 1
+  fi
+}
+
+# =================
+# Install Functions
+# =================
+
+install_nvim() {
+  info "Installing nvim"
+  mkdir -p $NVIM_DIR
+  case "$OS" in
+    Linux)
+      apt-get install -y neovim
+    ;;
+    Mac)
+      brew install -q neovim
+    ;;
+  esac
+
+  info "Installing vim-plug"
+  curl -fsLo ~/.local/share/nvim/site/autoload/plug.vim \
+    --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+}
+
+insatll_zsh() {
+  brew install -q zsh
+  chsh -s /opt/homebrew/bin/zsh
+
+  info "Installing Oh My Zsh"
+  if [ ! -d "$ZSH" ]; then
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  else
+    info "Oh My Zsh already installed"
+  fi
+}
+
+install_node() {
+  info "Installing nodejs"
+  case "$OS" in
+    Linux)
+      curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+      apt-get install -y nodejs
+    ;;
+    Mac)
+      brew install -q nodejs
+    ;;
+  esac
+}
+
 # =========
 # Variables
 # =========
@@ -46,6 +103,7 @@ esac
 # ====================
 
 info "Detecting if system has prereqs"
+command_check curl
 case "$OS" in
   Linux)
     [ "$(id -u)" -ne 0 ] && {
@@ -58,56 +116,45 @@ case "$OS" in
       error "In order to use this script, it must run without root nor sudo"
       exit 1
     }
-    if ! command -v brew &> /dev/null; then
-      error "In order to use this script, brew must be installed"
-      exit 1
-    fi
+    command_check brew
   ;;
 esac
 
+# ====================
+# Installation/Setup
+# ====================
 
-mkdir -p $NVIM_DIR
-
-# NVIM
-info "Installing nvim"
+info "Installing all the things"
 case "$OS" in
   Linux)
-    apt-get install -y neovim
+    install_nvim
+    install_node
   ;;
   Mac)
-    brew install -q neovim
+    install_nvim
+    insatll_zsh
+    install_node
   ;;
 esac
 
-info "Installing vim-plug"
-curl -fsLo ~/.local/share/nvim/site/autoload/plug.vim \
-  --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# =========
+# Symlinks
+# =========
 
-ln -sf ${SOURCE_DIR}/.config/nvim/init.vim ${NVIM_DIR}/init.vim
-ln -sf ${SOURCE_DIR}/.config/nvim/coc.vim ${NVIM_DIR}/coc.vim
-ln -sf ${SOURCE_DIR}/.config/nvim/coc-settings.json ${NVIM_DIR}/coc-settings.json
+info "Symlink dotfiles to ${HOME}"
+sleep 3
 
 # BASH
 ln -sf ${SOURCE_DIR}/.profile ${HOME}/.profile
 
 # ZSH
-[ "$OS" == "Mac" ] && {
-  info "Operating system is a mac, we prefer zsh on mac (:"
-  sleep 2
+[[ ! -e ${HOME}/.zshrc ]] && cp ${SOURCE_DIR}/.zshrc ${HOME}/.zshrc
+ln -sf ${SOURCE_DIR}/.zshrc ${HOME}/.zshrc
 
-  brew install -q zsh
-  chsh -s /opt/homebrew/bin/zsh
-
-  info "Installing Oh My Zsh"
-  if [ ! -d "$ZSH" ]; then
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  else
-    info "Oh My Zsh already installed"
-  fi
-  
-  cp ${SOURCE_DIR}/.zshrc ${HOME}/.zshrc
-  ln -sf ${SOURCE_DIR}/.zshrc ${HOME}/.zshrc
-}
+# NVIM
+ln -sf ${SOURCE_DIR}/.config/nvim/init.vim ${NVIM_DIR}/init.vim
+ln -sf ${SOURCE_DIR}/.config/nvim/coc.vim ${NVIM_DIR}/coc.vim
+ln -sf ${SOURCE_DIR}/.config/nvim/coc-settings.json ${NVIM_DIR}/coc-settings.json
 
 # GIT
 ln -sf ${SOURCE_DIR}/.gitconfig ${HOME}/.gitconfig
