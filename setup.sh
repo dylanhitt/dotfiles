@@ -27,6 +27,7 @@ NVIM_DIR="${HOME}/.config/nvim"
 # ==================
 
 OS=""
+ARCH=$(uname -m)
 case $(uname) in
    Linux*)
     OS="Linux"
@@ -82,9 +83,6 @@ info "Installing vim-plug"
 curl -fsLo ~/.local/share/nvim/site/autoload/plug.vim \
   --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-# Install ohmy zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
 ln -sf ${SOURCE_DIR}/.config/nvim/init.vim ${NVIM_DIR}/init.vim
 ln -sf ${SOURCE_DIR}/.config/nvim/coc.vim ${NVIM_DIR}/coc.vim
 ln -sf ${SOURCE_DIR}/.config/nvim/coc-settings.json ${NVIM_DIR}/coc-settings.json
@@ -92,9 +90,21 @@ ln -sf ${SOURCE_DIR}/.config/nvim/coc-settings.json ${NVIM_DIR}/coc-settings.jso
 # BASH
 ln -sf ${SOURCE_DIR}/.profile ${HOME}/.profile
 
+# ZSH
 [ "$OS" == "Mac" ] && {
-  info "operasting system is a mac, we prefer zsh on mac (:"
-  sleep 1
+  info "Operating system is a mac, we prefer zsh on mac (:"
+  sleep 2
+
+  brew install -q zsh
+  chsh -s /opt/homebrew/bin/zsh
+
+  info "Installing Oh My Zsh"
+  if [ ! -d "$ZSH" ]; then
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  else
+    info "Oh My Zsh already installed"
+  fi
+  
   cp ${SOURCE_DIR}/.zshrc ${HOME}/.zshrc
   ln -sf ${SOURCE_DIR}/.zshrc ${HOME}/.zshrc
 }
