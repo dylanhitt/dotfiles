@@ -14,8 +14,6 @@ set relativenumber
 set ignorecase
 set cursorline
 
-set termguicolors
-
 set nobackup
 set nowritebackup
 set nocompatible
@@ -61,6 +59,7 @@ Plug 'juliosueiras/vim-terraform-completion'
 Plug 'stephpy/vim-yaml'
 Plug 'brooth/far.vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'christianchiarulli/nvcode-color-schemes.vim'
 
 set encoding=UTF-8
 
@@ -75,13 +74,19 @@ let g:neosolarized_bold = 1
 let g:neosolarized_underline = 1
 let g:neosolarized_italic = 1
 
-"  Pear tree stuffs
+" Pear tree stuffs
 let g:pear_tree_repeatable_expand = 0
 let g:pear_tree_map_special_keys = 0
 imap <BS> <Plug>(PearTreeBackspace)
 imap <CR> <Plug>(PearTreeExpand)
 
-colorscheme vim-material
+" colorscheme
+if $COLORTERM =~# 'truecolor'
+    set termguicolors
+    colorscheme vim-material
+else
+    colorscheme nvcode
+endif
 
 lua <<EOF
 require("toggleterm").setup{}
