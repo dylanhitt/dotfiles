@@ -35,3 +35,4 @@ export MANPATH="/opt/local/share/man:$MANPATH"
 
 export PATH="${PATH}:${HOME}/.krew/bin"
 export PATH="${PATH}:${HOME}/go/bin"
+export PATH="${PATH}:/usr/local/go/bin"
