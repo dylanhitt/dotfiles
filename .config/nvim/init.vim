@@ -110,16 +110,15 @@ require("neo-tree").setup({
         {
             event = "file_opened",
             handler = function(file_path)
-                --auto close
-                require("neo-tree").close_all()
-            end
+                vim.cmd 'Neotree close'
+           end
         }
     },
 })
 EOF
 
 " Neotree mappings
-nnoremap <C-y> :NeoTreeShow<CR>
+nnoremap <C-y> :Neotree toggle<CR>
 
 nmap <F8> :TagbarToggle<CR>
 
