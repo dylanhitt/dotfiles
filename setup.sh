@@ -38,10 +38,6 @@ install_nvim() {
       brew install -q neovim
     ;;
   esac
-
-  info "Installing vim-plug"
-  curl -fsLo ~/.local/share/nvim/site/autoload/plug.vim \
-    --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 }
 
 insatll_zsh() {
@@ -124,18 +120,22 @@ esac
 # Installation/Setup
 # ====================
 
-info "Installing all the things"
-case "$OS" in
-  Linux)
-    install_nvim
-    install_node
-  ;;
-  Mac)
-    install_nvim
-    insatll_zsh
-    install_node
-  ;;
-esac
+install_tools() {
+  info "Installing all the things"
+  case "$OS" in
+    Linux)
+      install_nvim
+      install_node
+    ;;
+    Mac)
+      install_nvim
+      insatll_zsh
+      install_node
+    ;;
+  esac
+}
+
+# install_tools
 
 # =========
 # Symlinks
@@ -152,9 +152,8 @@ ln -sf ${SOURCE_DIR}/.profile ${HOME}/.profile
 ln -sf ${SOURCE_DIR}/.zshrc ${HOME}/.zshrc
 
 # NVIM
-ln -sf ${SOURCE_DIR}/.config/nvim/init.vim ${NVIM_DIR}/init.vim
-ln -sf ${SOURCE_DIR}/.config/nvim/coc.vim ${NVIM_DIR}/coc.vim
-ln -sf ${SOURCE_DIR}/.config/nvim/coc-settings.json ${NVIM_DIR}/coc-settings.json
+ln -sf ${SOURCE_DIR}/.config/nvim/init.lua ${NVIM_DIR}/init.lua
+ln -sfh ${SOURCE_DIR}/.config/nvim/lua ${NVIM_DIR}/lua
 
 # GIT
 ln -sf ${SOURCE_DIR}/.gitconfig ${HOME}/.gitconfig
