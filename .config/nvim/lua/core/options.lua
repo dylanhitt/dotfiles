@@ -54,3 +54,9 @@ autocmd('Filetype', {
     pattern = { 'json', 'yml', 'yaml' },
     command = 'setlocal ts=2 sts=2 sw=2 expandtab'
 })
+
+--- lua ---
+autocmd('Filetype', {
+    pattern = { 'lua' },
+    command = 'setlocal nolist ts=4 sts=4 sw=4 expandtab'
+})
