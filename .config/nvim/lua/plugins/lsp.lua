@@ -1,14 +1,10 @@
+local v = vim
+
 return {
     {
         'williamboman/mason.nvim',
-    },
-    {
-        'williamboman/mason-lspconfig.nvim',
-        dependencies = {
-            'williamboman/mason.nvim',
-        },
-        ensure_installed = {
-            "gopls"
+        opts = {
+            ensure_installed = { 'gopls', 'lua-language-server' }
         }
     },
     {
@@ -54,20 +50,26 @@ return {
 
             require('mason').setup()
 
-            -- should make this after we have more language
+            -- should make this configurable after we have more language
             -- server setups
             local on_attach = function(_, _)
-                vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
+                v.keymap.set('n', 'K', v.lsp.buf.hover, {})
+                v.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, {})
+                v.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
             end
 
-            lspconfig.gopls.setup({
-                capabilities = capabilities,
-                on_attach = on_attach
-            })
+            local lsps = { 'gopls', 'lua_ls' }
+            for _, lsp in ipairs(lsps) do
+                lspconfig[lsp].setup({
+                    capabilities = capabilities,
+                    on_attach = on_attach
+                })
+            end
         end,
         dependencies = {
-            "williamboman/mason.nvim",
-            'hrsh7th/cmp-nvim-lsp'
+            'williamboman/mason.nvim',
+            'hrsh7th/cmp-nvim-lsp',
+            'nvim-telescope/telescope.nvim'
         }
     },
 }
