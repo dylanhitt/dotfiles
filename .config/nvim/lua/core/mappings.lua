@@ -6,7 +6,6 @@ local mappings = {
     ["n"] = {}
 }
 
-
 for k, table in pairs(mappings) do
     for _, v in ipairs(table) do
         vim.keymap.set(k, v.binding, v.cmd, v.opts)
