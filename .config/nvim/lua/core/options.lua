@@ -49,6 +49,11 @@ autocmd('Filetype', {
     command = 'setlocal ts=4 sts=4 sw=4 noexpandtab'
 })
 
+autocmd('Filetype', {
+    pattern = { 'sh', 'bash' },
+    command = [[setlocal listchars=eol:$,trail:.,extends:>,precedes:.,tab:\ \ ]]
+})
+
 --- markup files ---
 autocmd('Filetype', {
     pattern = { 'json', 'yml', 'yaml' },

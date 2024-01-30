@@ -1,7 +1,10 @@
-local g = vim.g
+local v = vim
+local g = v.g
+local api = v.api
 
 return {
     'nvim-tree/nvim-web-devicons',
+    'tpope/vim-fugitive',
     {
         'nvim-treesitter/nvim-treesitter',
         build = ":TSUpdate",
@@ -9,7 +12,9 @@ return {
     {
         'steelsojka/pears.nvim',
         config = function()
-            require("pears").setup()
+            require("pears").setup(function(conf)
+                conf.remove_pair_on_outer_backspace(false)
+            end)
         end
     },
     {
@@ -21,7 +26,67 @@ return {
         priority = 1000,
     },
     {
-        "LazyVim/LazyVim",
+        'akinsho/toggleterm.nvim',
+        keys = {
+            { mode = 'n', '<c-q>', ':ToggleTerm<Enter>' },
+            { mode = 't', '<C-q>', [[<C-\><C-n>:ToggleTerm<Enter>]] }
+        },
+        init = function()
+            require('toggleterm').setup({})
+        end
+    },
+    {
+        'nvim-neo-tree/neo-tree.nvim',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'nvim-tree/nvim-web-devicons',
+            'MunifTanjim/nui.nvim',
+        },
+        cmd = 'Neotree',
+        -- init neotree so it hijacks default netrw
+        init = function()
+            api.nvim_create_autocmd('BufEnter', {
+                group = api.nvim_create_augroup('NeoTreeInit', { clear = true }),
+                callback = function()
+                    local f = v.fn.expand('%:p')
+                    if v.fn.isdirectory(f) ~= 0 then
+                        v.cmd('Neotree current dir=' .. f)
+                        api.nvim_clear_autocmds { group = 'NeoTreeInit' }
+                    end
+                end
+            })
+        end,
+        keys = {
+            { mode = 'n', '<c-y>', ':Neotree toggle<cr>' }
+        },
+        opts = {
+            window = {
+                position = 'right',
+            },
+            filesystem = {
+                filtered_items = {
+                    hide_dotfiles = true,
+                    hide_gitignored = true,
+                },
+                window = {
+                    mappings = {
+                        ["f"] = "",
+                    },
+                },
+                hijack_netrw_behavior = "open_current"
+            },
+            event_handlers = {
+                {
+                    event = "file_opened",
+                    handler = function(file_path)
+                        vim.cmd 'Neotree close'
+                    end
+                }
+            }
+        }
+    },
+    {
+        'LazyVim/LazyVim',
         opts = {
             colorscheme = "apprentice",
         },
