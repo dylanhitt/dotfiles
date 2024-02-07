@@ -10,6 +10,8 @@ opt.backup = false
 opt.writebackup = false
 opt.compatible = false
 
+opt.clipboard = 'unnamedplus'
+
 --- appearance ---
 opt.cursorline = true
 
