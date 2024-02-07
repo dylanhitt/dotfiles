@@ -1,4 +1,6 @@
+-- luacheck: push ignore vim
 local v = vim
+-- luacheck: pop
 local g = v.g
 local api = v.api
 
@@ -78,8 +80,8 @@ return {
             event_handlers = {
                 {
                     event = "file_opened",
-                    handler = function(file_path)
-                        vim.cmd 'Neotree close'
+                    handler = function()
+                        v.cmd 'Neotree close'
                     end
                 }
             }
