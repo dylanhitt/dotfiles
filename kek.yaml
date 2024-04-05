@@ -1,0 +1,93 @@
+cluster: nws-dev-west
+kind: SoloDevice
+apiVersion: carbonite.nowsecure.io/v1
+metadata:
+  name: 6013a379-aa26-4481-9176-1c80c8b1037f
+  uid: 6efe2fe6-8f00-45f9-9d2e-4e1ceb64753e
+  resourceVersion: '889674137'
+  generation: 127652
+  creationTimestamp: '2024-01-04T18:01:54Z'
+  labels:
+    kustomize.toolkit.fluxcd.io/name: apps
+    kustomize.toolkit.fluxcd.io/namespace: flux-system
+    platform: ios
+    serial: 00008110-028BD494F4AEA278
+  annotations:
+    carbonite.nowsecure.io/disable-fleet-guided-sync: ''
+    carbonite.nowsecure.io/enablement-reason: Provisioning Device
+    kustomize.toolkit.fluxcd.io/ssa: merge
+    onetime.carbonite.nowsecure.io/upgrade-spec: 'true'
+attrs:
+  serial: 00008110-028BD494F4AEA278
+  platform: ios
+  version: 16.1.2
+  environment: integration
+  model: ipad
+  userDefined:
+    type: Corellium
+spec:
+  enabled: true
+  guided: false
+  signingProfile: FFC501284C1D4AEEE8BFDB43E332B6ACABFC2563
+  type: Corellium
+  appium:
+    image: registry.nowsecure.io/nowsecure/appium-server:v3.0.0-rc.3
+  bridge:
+    image: registry.nowsecure.io/nowsecure/device-bridges:v2.0.0
+  dynamic:
+    image: >-
+      registry.nowsecure.io/viaforensics/vmatrix-ios-dynamic-analysis:v2.5.0-rc.4
+  devDisk:
+    image: registry.nowsecure.io/viaforensics/vmatrix-ios-devdiskimages:v1.0.3
+  corellium:
+    id: 6013a379-aa26-4481-9176-1c80c8b1037f
+    serial: 00008110-028BD494F4AEA278
+    ip: 10.122.13.1
+  ssh:
+    username: root
+    password: alpine
+  provision: []
+status:
+  corellium:
+    snapshot: <udid>
+  action:
+    startTime: start time
+    name: CorelliumRecovery
+    state: begin/inProgress/finished
+  allocated: false
+  presentOnUSB: false
+  presentOnBridge: false
+  trusted: false
+  health:
+    lastUpdateTime: '2024-03-06T15:15:56Z'
+    status: GOOD
+    ipAddress: 10.122.12.1
+    battery: 90
+    storageUsage: 49.15231
+    jailbreak: true
+    hasInternet: true
+  conditions:
+    - type: Monitored
+      status: 'True'
+      lastUpdateTime: '2024-03-06T15:15:56Z'
+    - type: Bridge
+      status: 'True'
+      lastUpdateTime: '2024-01-19T18:27:42Z'
+    - type: DeviceAgent
+      status: 'True'
+      lastUpdateTime: '2024-01-04T18:01:56Z'
+  jobStats:
+    consecutiveSuccesses: 0
+    consecutiveFailures: 0
+    history: null
+  provision:
+    # max of 3
+    history:
+      - startTime: time
+        success: bool
+        name: provision-job-name
+      - startTime:
+        success: bool
+        name: provision-job-name
+    lastAttemptedTime: null
+    failedAttempts: 0

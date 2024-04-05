@@ -17,7 +17,7 @@ info() {
 # ========
 
 command_check() {
-  if ! command -v $1 &> /dev/null; then
+  if ! command -v "${1}" &> /dev/null; then
       error "In order to use this script, ${1} must be installed"
       exit 1
   fi
@@ -29,7 +29,7 @@ command_check() {
 
 install_nvim() {
   info "Installing nvim"
-  mkdir -p $NVIM_DIR
+  mkdir -p "$NVIM_DIR"
   case "$OS" in
     Linux)
       apt-get install -y neovim
@@ -70,7 +70,7 @@ install_node() {
 # =========
 
 SCRIPTS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
-pushd $SCRIPTS_DIR > /dev/null
+pushd "$SCRIPTS_DIR" || exit 1 > /dev/null
 
 SOURCE_DIR=$PWD
 NVIM_DIR="${HOME}/.config/nvim"
@@ -80,7 +80,6 @@ NVIM_DIR="${HOME}/.config/nvim"
 # ==================
 
 OS=""
-ARCH=$(uname -m)
 case $(uname) in
    Linux*)
     OS="Linux"
@@ -145,16 +144,16 @@ info "Symlink dotfiles to ${HOME}"
 sleep 3
 
 # BASH
-ln -sf ${SOURCE_DIR}/.profile ${HOME}/.profile
+ln -sf "${SOURCE_DIR}/.profile" "${HOME}/.profile"
 
 # ZSH
-[[ ! -e ${HOME}/.zshrc ]] && cp ${SOURCE_DIR}/.zshrc ${HOME}/.zshrc
-ln -sf ${SOURCE_DIR}/.zshrc ${HOME}/.zshrc
+[[ ! -e "${HOME}/.zshrc" ]] && cp "${SOURCE_DIR}/.zshrc" "${HOME}/.zshrc"
+ln -sf "${SOURCE_DIR}/.zshrc" "${HOME}/.zshrc"
 
 # NVIM
-ln -sf ${SOURCE_DIR}/.config/nvim/init.lua ${NVIM_DIR}/init.lua
-ln -sfh ${SOURCE_DIR}/.config/nvim/lua ${NVIM_DIR}/lua
+ln -sf "${SOURCE_DIR}/.config/nvim/init.lua" "${NVIM_DIR}/init.lua"
+ln -sfh "${SOURCE_DIR}/.config/nvim/lua" "${NVIM_DIR}/lua"
 
 # GIT
-ln -sf ${SOURCE_DIR}/.gitconfig ${HOME}/.gitconfig
-ln -sf ${SOURCE_DIR}/.gitconfig-github ${HOME}/.gitconfig-github
+ln -sf "${SOURCE_DIR}/.gitconfig" "${HOME}/.gitconfig"
+ln -sf "${SOURCE_DIR}/.gitconfig-github" "${HOME}/.gitconfig-github"
