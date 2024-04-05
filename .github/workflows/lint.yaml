@@ -1,0 +1,29 @@
+name: lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  luacheck:
+    name: Luacheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Luacheck linter
+        uses: lunarmodules/luacheck@v1.1.2
+
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          ignore_names: >-
+            .profile
+            .zshrc
