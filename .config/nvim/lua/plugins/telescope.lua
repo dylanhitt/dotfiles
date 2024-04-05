@@ -1,7 +1,6 @@
 return {
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' },
         keys = {
             { mode = "n", 'fg', "<cmd>Telescope live_grep<cr>",                 desc = "Live grep" },
