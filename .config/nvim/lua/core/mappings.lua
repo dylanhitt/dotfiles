@@ -1,4 +1,6 @@
+-- luacheck: push ignore vim
 local v = vim
+-- luacheck: pop
 
 local mappings = {
     ["i"] = {
@@ -17,7 +19,7 @@ local mappings = {
 }
 
 for k, table in pairs(mappings) do
-    for _, v in ipairs(table) do
-        vim.keymap.set(k, v.binding, v.cmd, v.opts)
+    for _, val in ipairs(table) do
+        v.keymap.set(k, val.binding, val.cmd, val.opts)
     end
 end
