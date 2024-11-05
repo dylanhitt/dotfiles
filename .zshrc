@@ -3,6 +3,7 @@ export PATH="${HOME}/bin:/usr/local/bin:${PATH}"
 export PATH="/opt/homebrew/bin:${PATH}"
 export PATH="${PATH}:${HOME}/.krew/bin"
 export PATH="${PATH}:${HOME}/go/bin"
+export PATH="${PATH}:${HOME}/.local/bin"
 # MacPorts Installer addition on 2022-08-04_at_23:18:34: adding an appropriate PATH variable for use with MacPorts.
 export PATH="/opt/local/bin:/opt/local/sbin:${PATH}"
 # Finished adapting your PATH environment variable for use with MacPorts.
@@ -111,3 +112,13 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# pnpm
+export PNPM_HOME="/Users/dhitt/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
