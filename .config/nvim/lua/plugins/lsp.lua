@@ -4,7 +4,7 @@ return {
     {
         'williamboman/mason.nvim',
         opts = {
-            ensure_installed = { 'gopls', 'lua-language-server' }
+            ensure_installed = { 'gopls', 'lua-language-server', 'htmx-lsp', "templ" }
         }
     },
     {
@@ -32,6 +32,10 @@ return {
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' },
                 },
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
             })
         end,
         dependencies = {
@@ -58,7 +62,7 @@ return {
                 v.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
             end
 
-            local lsps = { 'gopls', 'lua_ls' }
+            local lsps = { 'gopls', 'lua_ls', "htmx", "templ" }
             for _, lsp in ipairs(lsps) do
                 lspconfig[lsp].setup({
                     capabilities = capabilities,
