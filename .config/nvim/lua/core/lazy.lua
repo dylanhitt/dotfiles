@@ -19,4 +19,24 @@ if not ok then
     return
 end
 
-lazy.setup("plugins")
+lazy.setup({
+    spec = {
+        { "LazyVim/LazyVim" },
+        { import = "plugins" },
+    },
+    performance = {
+        rtp = {
+            -- disable some rtp plugins
+            disabled_plugins = {
+                "gzip",
+                "matchit",
+                "matchparen",
+                "netrwPlugin",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
+    },
+})

@@ -20,12 +20,9 @@ return {
         end
     },
     {
-        'EdenEast/nightfox.nvim',
-        priority = 1000,
-    },
-    {
         'romainl/Apprentice',
         priority = 1000,
+        lazy = false
     },
     {
         'akinsho/toggleterm.nvim',
