@@ -54,14 +54,14 @@ return {
 
             require('mason').setup()
 
-            -- should make this configurable after we have more language
-            -- server setups
             local on_attach = function(_, _)
                 v.keymap.set('n', 'K', v.lsp.buf.hover, {})
                 v.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, {})
                 v.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
             end
 
+            -- should make this configurable after we have more language
+            -- server setups
             local lsps = { 'gopls', 'lua_ls', "htmx", "templ" }
             for _, lsp in ipairs(lsps) do
                 lspconfig[lsp].setup({

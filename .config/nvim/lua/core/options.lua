@@ -6,6 +6,9 @@ opt.title = true
 
 opt.encoding = 'UTF-8'
 
+opt.spelllang = 'en_us'
+opt.spell = false
+
 opt.backup = false
 opt.writebackup = false
 opt.compatible = false
@@ -41,7 +44,7 @@ opt.softtabstop = 4
 
 --- golang ---
 autocmd('Filetype', {
-    pattern = { 'go' },
+    pattern = { 'go', 'c' },
     command = 'setlocal nolist'
 })
 
