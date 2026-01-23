@@ -7,15 +7,6 @@ on:
       - "main"
 
 jobs:
-  luacheck:
-    name: Luacheck
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Luacheck linter
-        uses: lunarmodules/luacheck@v1.1.2
-
   shellcheck:
     name: Shellcheck
     runs-on: ubuntu-latest
@@ -27,3 +18,5 @@ jobs:
           ignore_names: >-
             .profile
             .zshrc
+            .git-prompt.sh
+            .git-completion.bash

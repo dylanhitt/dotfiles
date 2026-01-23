@@ -27,20 +27,7 @@ command_check() {
 # Install Functions
 # =================
 
-install_nvim() {
-  info "Installing nvim"
-  mkdir -p "$NVIM_DIR"
-  case "$OS" in
-    Linux)
-      apt-get install -y neovim
-    ;;
-    Mac)
-      brew install -q neovim
-    ;;
-  esac
-}
-
-insatll_zsh() {
+install_zsh() {
   brew install -q zsh
   chsh -s /opt/homebrew/bin/zsh
 
@@ -65,6 +52,21 @@ install_node() {
   esac
 }
 
+install_kube-ps1() {
+  info "Installing kube-ps1"
+  brew install -q kube-ps1
+}
+
+install_kubectx() {
+  info "Install kubectx"
+  brew install -q kubectx
+}
+
+install_kubens() {
+  info "Install kubens"
+  brew install -q kubens
+}
+
 # =========
 # Variables
 # =========
@@ -73,7 +75,6 @@ SCRIPTS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null &&
 pushd "$SCRIPTS_DIR" || exit 1 > /dev/null
 
 SOURCE_DIR=$PWD
-NVIM_DIR="${HOME}/.config/nvim"
 
 # ==================
 # Detect Environment
@@ -123,13 +124,14 @@ install_tools() {
   info "Installing all the things"
   case "$OS" in
     Linux)
-      install_nvim
       install_node
     ;;
     Mac)
-      install_nvim
-      insatll_zsh
+      install_zsh
       install_node
+      install_kube-ps1
+      install_kubectx
+      install_kubens
     ;;
   esac
 }
@@ -150,10 +152,8 @@ ln -sf "${SOURCE_DIR}/.profile" "${HOME}/.profile"
 [[ ! -e "${HOME}/.zshrc" ]] && cp "${SOURCE_DIR}/.zshrc" "${HOME}/.zshrc"
 ln -sf "${SOURCE_DIR}/.zshrc" "${HOME}/.zshrc"
 
-# NVIM
-ln -sf "${SOURCE_DIR}/.config/nvim/init.lua" "${NVIM_DIR}/init.lua"
-ln -sfh "${SOURCE_DIR}/.config/nvim/lua" "${NVIM_DIR}/lua"
-
 # GIT
 ln -sf "${SOURCE_DIR}/.gitconfig" "${HOME}/.gitconfig"
 ln -sf "${SOURCE_DIR}/.gitconfig-github" "${HOME}/.gitconfig-github"
+ln -sf "${SOURCE_DIR}/git-prompt.sh" "${HOME}/.git-prompt.sh"
+ln -sf "${SOURCE_DIR}/.git-completion.bash" "${HOME}/.git-completion.bash"
